@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Вход
+{% endblock %}
+
+{% block content %}
+<!-- Основной контейнер для страницы -->
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <!-- Колонка с формой входа -->
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <!-- Заголовок формы -->
+          <h3 class="text-center mb-4">Вход в аккаунт</h3>
+
+          <!-- Форма входа -->
+          <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+            <!-- Блок для каждого поля формы -->
+            <div class="mb-3">
+              <div class="d-flex flex-column">
+                <!-- Метка для поля, отображается как подпись для ввода данных -->
+                <label for="{{ field.id_for_label }}" class="col-form-label mb-2">{{ field.label }}</label>
+                <!-- Поле ввода для соответствующего поля формы -->
+                {{ field }}
+                {% if field.errors %}
+                  <!-- Если есть ошибки в поле, показываем их -->
+                  <div class="text-danger small">{{ field.errors|join:", " }}</div>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+            <!-- Кнопка отправки формы -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Войти</button>
+            </div>
+          </form>
+
+          <!-- Ссылка для перехода на страницу регистрации, если у пользователя нет аккаунта -->
+          <p class="mt-3 text-center text-muted">
+            Нет аккаунта? 
+            <a href="{% url 'accounts:register' %}">Зарегистрироваться</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

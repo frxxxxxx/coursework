@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="row g-0">
+      {# Проверяем, есть ли изображение обложки у поста. Если оно есть, то отображаем его в отдельной колонке. #}
+      {% if post.cover_image %}
+      <div class="col-md-4 d-flex justify-content-center align-items-center p-4">
+        {# Используем background-image для отображения изображения как фон в круглом контейнере. #}
+        <div class="cover-circle mb-3" style="background-image: url('{{ post.cover_image.url }}');"></div>
+      </div>
+      <div class="col-md-8">
+      {% else %}
+      <div class="col-12">
+      {% endif %}
+        <div class="card-body">
+          {# Заголовок поста, который выводится крупным шрифтом. #}
+          <h1 class="card-title">{{ post.title }}</h1>
+
+          {# Автор поста, отображается с небольшим отступом. #}
+          <p class="text-secondary mb-1">Автор: {{ post.author.username }}</p>
+          {# Дата публикации поста в нужном формате (день.месяц.год часы:минуты). #}
+          <p class="text-secondary mb-3">Дата: {{ post.created_at|date:"d.m.Y H:i" }}</p>
+          <hr>
+          {# Основной контент поста. Используем фильтр `safe`, чтобы поддерживалось HTML-форматирование. #}
+          <div class="card-text">{{ post.content|safe }}</div>
+
+          {# Если текущий пользователь является автором поста, показываем кнопки редактирования и удаления. #}
+          {% if user == post.author %}
+          <div class="mt-4">
+            <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-outline-secondary me-2">Редактировать</a>
+            <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-outline-danger">Удалить</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {# Если у поста есть вложения, выводим их в подвале карточки. #}
+    {% if post.attachments.all %}
+    <div class="card-footer bg-light">
+      <h5 class="mb-3">Вложения:</h5>
+      <ul class="list-unstyled">
+        {# Для каждого вложения создаем ссылку на файл. #}
+        {% for att in post.attachments.all %}
+          <li><a href="{{ att.file.url }}" class="text-decoration-none">{{ att.file.name|slice:"15:" }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,166 @@
+// Шрифты
+$heading-font: 'Montserrat', sans-serif;  // Шрифт для заголовков
+$body-font: 'Roboto', sans-serif;         // Шрифт для основного текста
+
+// Переменные темы через CSS Custom Properties
+// Тема светлая
+html[data-theme="light"] {
+  --background-color: #f8f9fa;           // Цвет фона страницы (светлый)
+  --card-bg: #ffffff;                   // Цвет фона карточек
+  --text-color: #222831;                // Основной цвет текста
+  --muted-color: #555555;               // Цвет для второстепенного текста
+  --navbar-bg: #ffffff;                 // Фон для навигационной панели
+  --navbar-text: #222831;               // Цвет текста для навигационной панели
+  --accent-color: #00adb5;              // Акцентный цвет (для кнопок, ссылок)
+  --accent-hover: #009799;              // Акцентный цвет при наведении
+  --btn-bg: #00adb5;                    // Фон кнопок
+  --btn-text: #ffffff;                  // Цвет текста на кнопках
+  --link-color: #00adb5;                // Цвет ссылок
+}
+
+// Тема темная
+html[data-theme="dark"] {
+  --background-color: #121212;           // Цвет фона страницы (темный)
+  --card-bg: #1e1e1e;                   // Цвет фона карточек
+  --text-color: #f1f1f1;                // Основной цвет текста
+  --muted-color: #bbbbbb;               // Цвет для второстепенного текста
+  --navbar-bg: #1c1c1c;                 // Фон для навигационной панели
+  --navbar-text: #f1f1f1;               // Цвет текста для навигационной панели
+  --accent-color: #00ffc8;              // Акцентный цвет (для кнопок, ссылок)
+  --accent-hover: #00ccaa;              // Акцентный цвет при наведении
+  --btn-bg: #00ffc8;                    // Фон кнопок
+  --btn-text: #121212;                  // Цвет текста на кнопках
+  --link-color: #00ffc8;                // Цвет ссылок
+}
+
+// Общие стили для страницы
+body {
+  font-family: $body-font;              // Шрифт для основного текста
+  background-color: var(--background-color);  // Цвет фона страницы
+  color: var(--text-color);             // Основной цвет текста
+  line-height: 1.6;                     // Высота строки для лучшего восприятия текста
+}
+
+// Стили для ссылок
+a {
+  color: var(--link-color);             // Цвет ссылок
+  &:hover {
+    color: var(--accent-hover);         // Цвет ссылок при наведении
+    text-decoration: none;              // Убираем подчеркивание при наведении
+  }
+}
+
+// Навигационная панель
+.navbar {
+  background-color: var(--navbar-bg) !important;  // Цвет фона навигационной панели
+  .navbar-brand, .nav-link {
+    color: var(--navbar-text) !important;         // Цвет текста для ссылок в навигации
+  }
+  .nav-link:hover {
+    color: var(--accent-color) !important;       // Цвет текста при наведении на ссылки в навигации
+  }
+}
+
+// Карточки
+.card {
+  background-color: var(--card-bg);          // Цвет фона карточек
+  border: none;                              // Убираем рамку у карточек
+  border-radius: 0.75rem;                    // Скругление углов карточек
+  color: var(--text-color);                  // Цвет текста в карточке
+  overflow: hidden;                          // Обрезаем лишний контент
+  transition: transform 0.3s, box-shadow 0.3s; // Плавные анимации для карточек
+  &:hover {
+    transform: translateY(-5px);              // Легкое поднятие карточки при наведении
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);  // Тень для карточки при наведении
+  }
+}
+
+.card-title {
+  font-family: $heading-font;                // Шрифт для заголовков карточек
+  font-size: 1.25rem;                        // Размер шрифта заголовков
+}
+
+.text-secondary {
+  color: var(--muted-color) !important;     // Цвет для второстепенного текста
+}
+
+// Кнопки
+.btn-primary {
+  background-color: var(--btn-bg);           // Цвет фона для основной кнопки
+  color: var(--btn-text);                    // Цвет текста на кнопке
+  border: none;                              // Убираем рамку у кнопки
+  border-radius: 1.5rem;                     // Скругление углов кнопки
+  padding: 0.5rem 1rem;                      // Отступы внутри кнопки
+  font-weight: 600;                          // Жирное начертание текста на кнопке
+  &:hover {
+    background-color: var(--accent-hover);   // Цвет фона кнопки при наведении
+  }
+}
+
+.btn-outline-secondary {
+  color: var(--text-color);                  // Цвет текста на кнопке
+  border-color: var(--muted-color);          // Цвет рамки кнопки
+  &:hover {
+    background-color: var(--accent-color);   // Цвет фона кнопки при наведении
+    color: #fff;                             // Цвет текста при наведении
+  }
+}
+
+.btn-outline-dark {
+  color: var(--text-color);                  // Цвет текста на кнопке
+  border-color: var(--muted-color);          // Цвет рамки кнопки
+  &:hover {
+    background-color: var(--accent-color);   // Цвет фона кнопки при наведении
+    color: #fff;                             // Цвет текста при наведении
+  }
+}
+
+// Обложка поста и изображения
+.post-cover,
+.cover-circle,
+.cover-circle-lg {
+  background-size: cover;                   // Пропорциональное масштабирование фона
+  background-position: center;              // Центрирование изображения
+  border: 3px solid var(--accent-color);    // Рамка вокруг изображения
+}
+
+.post-cover {
+  width: 120px;                              // Ширина обложки поста
+  height: 120px;                             // Высота обложки поста
+  margin: 1rem auto;                         // Отступы сверху и снизу
+  object-fit: cover;                         // Масштабирование изображения
+  border-radius: 50%;                        // Круглая форма
+}
+
+.cover-circle {
+  width: 250px;                              // Ширина кругового элемента
+  height: 250px;                             // Высота кругового элемента
+  border-radius: 10%;                        // Скругленные углы
+}
+
+.cover-circle-lg {
+  width: 150px;                              // Ширина большого кругового элемента
+  height: 150px;                             // Высота большого кругового элемента
+  border-radius: 50%;                        // Круглая форма
+  margin: 0 auto;                            // Центрирование
+  border-width: 4px;                         // Толщина рамки
+}
+
+// Подвал
+.footer {
+  background-color: var(--navbar-bg);       // Фон подвала
+  color: var(--text-color);                  // Цвет текста в подвале
+  text-align: center;                        // Центрирование текста
+  padding: 2rem 0;                           // Отступы внутри подвала
+  a {
+    color: var(--accent-color);              // Цвет ссылок в подвале
+    &:hover { text-decoration: underline; }   // Подчеркивание при наведении
+  }
+}
+
+// Адаптивные стили
+@media (max-width: 768px) {
+  .card-title {
+    font-size: 1.1rem;                       // Уменьшаем размер шрифта для карточек на малых экранах
+  }
+}

@@ -1,0 +1,46 @@
+{# Проверяем, есть ли еще страницы для навигации #}
+{% if page_obj.has_other_pages %}
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+    
+      {# Кнопка «Пред.» — если есть предыдущая страница, показываем активную ссылку, иначе она будет заблокирована #}
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+            &laquo;  {# Символ для стрелки влево (предыдущая страница) #}
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">&laquo;</span> {# Когда нет предыдущей страницы, кнопка неактивна #}
+        </li>
+      {% endif %}
+
+      {# Отображаем номера страниц. Текущая страница будет выделена #}
+      {% for num in page_obj.paginator.page_range %}
+        {% if num == page_obj.number %}
+          <li class="page-item active" aria-current="page">
+            <span class="page-link">{{ num }}</span> {# Для текущей страницы выводим активный стиль #}
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a> {# Для других страниц — обычная ссылка #}
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {# Кнопка «След.» — если есть следующая страница, показываем активную ссылку, иначе она будет заблокирована #}
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+            &raquo; {# Символ для стрелки вправо (следующая страница) #}
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">&raquo;</span> {# Когда нет следующей страницы, кнопка неактивна #}
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}

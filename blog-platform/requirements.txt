@@ -1,0 +1,11 @@
+asgiref==3.8.1
+bootstrap4==0.1.0
+Django==5.2.1
+django-ckeditor==6.7.2
+django-js-asset==3.1.2
+django-sass-processor==1.4.1
+libsass==0.23.0
+mysqlclient==2.2.7
+pillow==11.2.1
+sqlparse==0.5.3
+tzdata==2025.2

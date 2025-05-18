@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0">
+        
+        {# Заголовок карточки. В зависимости от действия (создание или редактирование) выводится разный текст. #}
+        <div class="card-header bg-transparent text-center">
+          <h2 class="mb-0">
+            {% if view.action == "create" %}Новый пост{% else %}Редактирование поста{% endif %}
+          </h2>
+        </div>
+
+        <div class="card-body">
+          {# Форма для создания или редактирования поста #}
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}  {# Подключение необходимых медиафайлов для формы (например, JS-скрипты для CKEditor) #}
+
+            {# Поле для ввода заголовка поста #}
+            <div class="mb-3">
+              {{ form.title.label_tag }}  {# Мечка для поля заголовка #}
+              {{ form.title }}  {# Поле для ввода заголовка #}
+            </div>
+
+            {# Поле для загрузки изображения обложки #}
+            <div class="mb-4">
+              {{ form.cover_image.label_tag }}  {# Мечка для изображения обложки #}
+              <br>
+              {{ form.cover_image }}  {# Поле для загрузки изображения #}
+              
+              {# Если изображение уже установлено, показываем его в круглой обложке #}
+              {% if form.instance.cover_image %}
+                <div class="mt-3 text-center">
+                  <div class="cover-circle-lg" style="background-image: url('{{ form.instance.cover_image.url }}');"></div>  {# Отображение обложки как фона для круглой области #}
+                </div>
+              {% endif %}
+            </div>
+
+            {# Поле для ввода содержимого поста (используется WYSIWYG редактор) #}
+            <div class="mb-4">
+              {{ form.content.label_tag }}  {# Мечка для содержимого поста #}
+              {{ form.content }}  {# Поле для ввода содержимого поста #}
+            </div>
+
+            {# Поле для прикрепления файлов #}
+            <div class="mb-4">
+              <label for="attachments" class="form-label">Прикрепить файлы</label>  {# Мечка для поля прикрепления файлов #}
+              <input type="file" name="attachments" id="attachments" multiple class="form-control">  {# Поле для выбора нескольких файлов #}
+            </div>
+
+            {# Кнопка для отправки формы #}
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary btn-lg px-5 shadow">Сохранить</button>  {# Кнопка для сохранения поста #}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

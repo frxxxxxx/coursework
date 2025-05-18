@@ -1,0 +1,14 @@
+<div class="mb-2">
+  {# Создаем поле для загрузки файла (например, для аватара), которое имеет уникальные атрибуты на основе данных из виджета #}
+  <input type="file" name="{{ widget.name }}" class="form-control" id="{{ widget.attrs.id }}">
+</div>
+
+{# Проверяем, если у виджета есть начальное значение (например, если аватар уже установлен) #}
+{% if widget.is_initial %}
+  {# Если начальное значение присутствует, показываем чекбокс для удаления аватара #}
+  <div class="form-check mt-2">
+    <input class="form-check-input" type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}">
+    {# Надпись рядом с чекбоксом, указывающая на возможность удалить аватар #}
+    <label class="form-check-label text-danger" for="{{ widget.checkbox_id }}">Удалить аватар</label>
+  </div>
+{% endif %}

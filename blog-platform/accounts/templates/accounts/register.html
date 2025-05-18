@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Регистрация
+{% endblock %}
+
+{% block content %}
+<!-- Контейнер с отступами сверху и снизу -->
+<div class="container my-5">
+  <!-- Центрируем карточку формы -->
+  <div class="row justify-content-center">
+    <!-- Колонка с формой регистрации, с адаптивной шириной -->
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <!-- Заголовок страницы регистрации -->
+          <h3 class="text-center mb-4">Создать аккаунт</h3>
+
+          <!-- Форма регистрации -->
+          <form method="post" novalidate>
+            {% csrf_token %}  <!-- Добавляем защиту от CSRF-атак -->
+            {% for field in form %}
+            <!-- Каждый элемент формы (поля ввода) -->
+            <div class="mb-3">
+              <div class="d-flex flex-column">
+                <!-- Метка для поля ввода -->
+                <label for="{{ field.id_for_label }}" class="col-form-label mb-2">
+                  {% if field.name == "username" %}
+                    Имя пользователя
+                  {% elif field.name == "email" %}
+                    Электронная почта
+                  {% elif field.name == "password1" %}
+                    Пароль
+                  {% elif field.name == "password2" %}
+                    Повторите пароль
+                  {% else %}
+                    {{ field.label }}
+                  {% endif %}
+                </label>
+                <!-- Поле ввода -->
+                {{ field }}
+                <!-- Вывод ошибок, если они есть -->
+                {% if field.errors %}
+                  <div class="text-danger small">{{ field.errors|join:", " }}</div>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+
+            <!-- Кнопка отправки формы -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            </div>
+          </form>
+
+          <!-- Ссылка на страницу входа, если у пользователя уже есть аккаунт -->
+          <p class="mt-3 text-center text-muted">
+            Уже есть аккаунт?
+            <a href="{% url 'accounts:login' %}">Войти</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  Профиль
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h2 class="mb-4 text-center">Профиль пользователя</h2>
+
+          <!-- Блок с аватаром -->
+          <div class="d-flex flex-column align-items-center mb-4">
+            {% if user.profile.avatar %}
+              <!-- Отображаем аватар пользователя -->
+              <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid var(--accent-color);">
+            {% else %}
+              <!-- Если аватар не существует, показываем серый круг -->
+              <div class="rounded-circle mb-3 bg-secondary" style="width: 120px; height: 120px;"></div>
+            {% endif %}
+
+            <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+            <p><strong>Почта:</strong> {{ user.email }}</p>
+            <p><strong>Количество постов:</strong> {{ user.posts.count }}</p>
+
+            <!-- Кнопка переключения темы -->
+            <button id="toggle-theme" class="btn btn-outline-dark mt-3">Переключить тему</button>
+          </div>
+
+          <hr>
+          <!-- Форма для загрузки нового аватара и сохранения настроек -->
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Поле для аватара -->
+            <div class="mb-3">
+              {{ pform.avatar.label_tag }}
+              <div class="input-group" style="display: flex; flex-direction: column;">
+                {{ pform.avatar }}
+              </div>
+              <!-- Если поле для удаления аватара доступно, показываем чекбокс -->
+              {% if pform.avatar.clear_checkbox %}
+                <div class="form-check mt-2">
+                  <input class="form-check-input" type="checkbox" name="{{ pform.avatar.clear_checkbox.name }}" id="{{ pform.avatar.clear_checkbox.id_for_label }}">
+                  <label class="form-check-label text-danger" for="{{ pform.avatar.clear_checkbox.id_for_label }}">Удалить аватар</label>
+                </div>
+              {% endif %}
+            </div>
+
+            <!-- Скрытое поле для изменения темы -->
+            <div class="mb-3" style="display:none;">
+              {{ pform.theme.label_tag }}
+              <select name="theme" class="form-select">
+                <option value="light" {% if pform.theme.value == 'light' %}selected{% endif %}>Светлая</option>
+                <option value="dark" {% if pform.theme.value == 'dark' %}selected{% endif %}>Тёмная</option>
+              </select>
+            </div>
+
+            <!-- Кнопка сохранения настроек -->
+            <div class="text-end">
+              <button class="btn btn-primary" type="submit">Сохранить настройки</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Скрипт для переключения темы между светлой и тёмной
+  const toggleBtn = document.getElementById('toggle-theme');
+  toggleBtn?.addEventListener('click', () => {
+    const html = document.documentElement;
+    const current = html.dataset.theme || 'light';
+    const next = current === 'light' ? 'dark' : 'light';
+    html.dataset.theme = next;
+    localStorage.setItem('theme', next);
+  });
+
+  // При загрузке страницы проверяем и применяем сохранённую тему
+  document.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+      document.documentElement.dataset.theme = saved;
+    }
+  });
+</script>
+
+{% endblock %}
