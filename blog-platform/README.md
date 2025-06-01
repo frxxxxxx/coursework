@@ -7,6 +7,10 @@
     python -m venv venv
     venv\Scripts\activate
 
+   **Если pip не работает**:
+    python -m ensurepip --upgrade
+    python -m pip install --upgrade pip
+
 3. **Установка зависимостей (cmd)**:
     pip install -r requirements.txt
 
@@ -20,6 +24,9 @@
 
 2. **Миграция базы данных (cmd)**:
     python manage.py migrate
+
+3. **Генерация пользователей и постов**:
+    python seed.py
 
 ## Запуск сайта
 
